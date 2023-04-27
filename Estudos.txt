@@ -2,3 +2,146 @@ Estudos de caso
 
 react_hooks
 
+Usando o State Hook
+
+O Hook de estado é uma função que permite adicionar o estado do React a um componente de função. Em outras palavras, ele permite que você adicione o estado do React a componentes de função.
+
+O Hook de estado é semelhante a this.state em uma classe, exceto que ele retorna um par de valores: o estado atual e uma função que atualiza o estado. Você pode chamar essa função de atualização de estado a partir de um manipulador de eventos ou de qualquer lugar. É semelhante a this.setState em uma classe, exceto que não mescla o estado antigo com o novo.
+
+O Hook de estado é uma maneira de adicionar o estado local a uma função. Em vez de usar uma classe, você pode usar um Hook de estado para adicionar estado local a um componente de função.
+
+O Hook de estado não substitui seu conhecimento de React. Se você entende como as classes funcionam, você provavelmente sabe que Hooks não fornecem uma maneira de “compartilhar” o estado entre os componentes. Por exemplo, se você tiver um componente de função e um componente de classe, você não pode usar o Hook de estado para compartilhar o estado entre os dois componentes.
+
+### Exemplo de uso do Hook de estado
+
+```js
+import React, { useState } from 'react';
+const Example = () => {
+  // Declara uma nova variável de state, que chamaremos de "count"
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Clique aqui
+      </button>
+    </div>
+  );
+}
+```
+
+### Usando vários Hooks de estado
+```js
+import React, { useState } from 'react';
+
+function ExampleWithManyStates() {
+  // Declara várias variáveis de state!
+  const [age, setAge] = useState(42);
+  const [fruit, setFruit] = useState('banana');
+  const [todos, setTodos] = useState([{ text: 'Aprender Hooks' }]);
+  // ...
+}
+```
+### Parametros da funcao de callback do useState
+```js
+const [state, setState] = useState(initialState);
+```
+### useState com funcao de callback
+```js
+const [state, setState] = useState(() => {
+  const initialState = someExpensiveComputation(props);
+  return initialState;
+});
+```
+
+
+### Usando o Effect Hook
+
+O Hook de efeito permite executar efeitos colaterais em componentes de função. Os efeitos colaterais são operações secundárias que podem ser executadas após a renderização do componente. Os efeitos colaterais podem ser qualquer coisa, desde a mutação de uma variável até a busca de dados remotos.
+
+### diferenca entre useEfect e lifeCycle
+```js
+useEffect(() => {
+  document.title = `Você clicou ${count} vezes`;
+});
+```
+```js
+componentDidMount() {
+  document.title = `Você clicou ${this.state.count} vezes`;
+}
+
+A diferenca entre useEffect e lifeCycle é que o useEffect é executado após cada renderização do componente, enquanto o lifeCycle é executado apenas uma vez após a montagem do componente.
+
+```
+
+### Exemplo de uso do useEffect com dependencia
+```js
+useEffect(() => {
+  document.title = `Você clicou ${count} vezes`;
+}, [count]); // Apenas re-execute o efeito quando o valor count mudar
+```
+
+### explique encadeament opcional do javascript
+```js
+const name = user?.name;
+```
+O encadeamento opcional é um recurso do JavaScript que permite ler o valor de uma propriedade localizada profundamente em uma cadeia de objetos sem ter que validar explicitamente que cada referência na cadeia é válida. O encadeamento opcional é marcado com um ponto de interrogação (?.) E interrompe a avaliação e retorna undefined se o valor da esquerda for null ou undefined.
+
+addEventListner e uma funcao que recebe dois parametros, o primeiro e o nome do evento e o segundo e uma funcao de callback que sera executada quando o evento for disparado.
+
+removeEventListner e uma funcao que recebe dois parametros, o primeiro e o nome do evento e o segundo e uma funcao de callback que sera executada quando o evento for disparado.
+
+O addEventListner tem que ser limpo sempre que o componente for desmontado usado o removeEventListner, caso contrario o evento ficara ativo mesmo depois do componente ser desmontado.
+
+
+Principal regra dos hooks e que eles devem ser chamados apenas no nivel mais alto do componente, nao devem ser chamados dentro de loops, condicionais ou funcoes aninhadas.
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+useCallback e um hook que retorna uma funcao memorizada, ou seja, uma funcao que nao sera recriada toda vez que o componente for renderizado, a funcao so sera recriada quando as dependencias passadas para o useCallback forem alteradas.
+
+### Exemplo de uso do useCallback
+```js
+const memoizedCallback = useCallback(
+  () => {
+    doSomething(a, b);
+  },
+  [a, b],
+);
+```
+### Explique react.memo e useMemo
+```js
+const MemoizedComponent = React.memo(Component);
+```
+
+react.memo e um HOC que recebe um componente e retorna um novo componente, o novo componente so sera renderizado novamente quando as propriedades passadas para o componente forem alteradas.
+
+
+//TODO Parei aqui 27/04!!!
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useMemo e um hook que retorna um valor memorizado, ou seja, um valor que nao sera recriado toda vez que o componente for renderizado, o valor so sera recriado quando as dependencias passadas para o useMemo forem alteradas.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useRef e um hook que retorna um objeto mutavel com a propriedade current, a propriedade current e inicializada com o valor passado para o hook, o valor da propriedade current pode ser alterado sem que o componente seja renderizado novamente.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useImperativeHandle e um hook que permite que um componente filho exponha funcoes para o componente pai, ou seja, permite que o componente pai chame funcoes do componente filho.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useLayoutEffect e um hook que funciona de forma semelhante ao useEffect, a diferenca e que o useLayoutEffect e executado antes do componente ser renderizado na tela, enquanto o useEffect e executado depois do componente ser renderizado na tela.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useDebugValue e um hook que permite que voce exiba um label para um valor customizado durante a depuracao.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useContext e um hook que permite que voce compartilhe dados entre componentes sem precisar passar props manualmente entre eles.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+useReducer e um hook que permite que voce gerencie o estado de um componente usando uma funcao reducer, o useReducer e semelhante ao useState, a diferenca e que o useReducer e mais adequado para gerenciar estados complexos.
