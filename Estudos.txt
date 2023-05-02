@@ -261,3 +261,48 @@ export default useFetch;
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+### Fale sobre errorBoundary no React.
+
+ErrorBoundary e um componente do React que permite que voce trate erros que ocorrem em componentes filhos, o ErrorBoundary e um componente de classe, ou seja, um componente que estende a classe Component do React.
+
+O ErrorBoundary possui dois metodos de ciclo de vida, o metodo componentDidCatch e o metodo render, o metodo componentDidCatch e chamado quando um erro ocorre em um componente filho, o metodo render e chamado quando um erro ocorre em um componente filho.
+
+O ErrorBoundary tambem possui um metodo de ciclo de vida, o metodo getDerivedStateFromError, o metodo getDerivedStateFromError e chamado quando um erro ocorre em um componente filho, o metodo getDerivedStateFromError e usado para atualizar o estado do componente ErrorBoundary com base no erro que ocorreu em um componente filho.
+
+O metodo de ciclo de vida componentDidCatch recebe dois parametros, o primeiro parametro e o erro que ocorreu em um componente filho, o segundo parametro e um objeto que contem informacoes sobre o erro que ocorreu em um componente filho.
+
+O metodo de ciclo de vida getDerivedStateFromError recebe um parametro, o parametro e o erro que ocorreu em um componente filho.
+
+O metodo de ciclo de vida render recebe dois parametros, o primeiro parametro e o erro que ocorreu em um componente filho, o segundo parametro e um objeto que contem informacoes sobre o erro que ocorreu em um componente filho.
+
+### Exemplifique errorBoundary no React.
+```js
+
+import React, { Component } from 'react';
+
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.log(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+
+```
