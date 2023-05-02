@@ -64,6 +64,25 @@ O Hook de efeito permite executar efeitos colaterais em componentes de função.
 useEffect(() => {
   document.title = `Você clicou ${count} vezes`;
 });
+
+### Em useEfect eu posso usar o .then para executar uma funcao depois que o useEffect for executado, enquanto no lifeCycle eu tenho que usar o componentDidMount para executar uma funcao depois que o componente for montado.
+```
+```js
+useEffect(() => {
+  fetch('https://api.github.com/users/freitas-ma')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    });
+})
+
+O .then e uma funcao que recebe uma funcao de callback que sera executada depois que a funcao anterior for executada.
+```
+```js
+
+
+
+
 ```
 ```js
 componentDidMount() {
@@ -107,24 +126,48 @@ const memoizedCallback = useCallback(
   [a, b],
 );
 ```
-### Explique react.memo e useMemo
-```js
-const MemoizedComponent = React.memo(Component);
-```
-
-react.memo e um HOC que recebe um componente e retorna um novo componente, o novo componente so sera renderizado novamente quando as propriedades passadas para o componente forem alteradas.
-
-
 //TODO Parei aqui 27/04!!!
+
+Basicamente o useCallback e utilizado para chamar uma funcao apenas quando as dependencias passadas para o useCallback forem alteradas, enquanto o useMemo e utilizado para criar um valor apenas quando as dependencias passadas para o useMemo forem alteradas.
+
+Posso sempre alterar um elemento pai sem que o elemento filho seja alterado usando o useCallback sem passar dependencias para ele, enquanto o useMemo sempre ira recriar o valor quando o componente for renderizado novamente.
+
+Um exemplo seria, eu tenho um componente pai que renderiza um componente filho, o componente filho recebe uma funcao como propriedade, se eu passar essa funcao como dependencia para o useCallback, a funcao so sera recriada quando o componente pai for renderizado novamente, enquanto se eu passar essa funcao como dependencia para o useMemo, a funcao sera recriada toda vez que o componente filho for renderizado.
+
+Para ajustar o setState (setCounter*), posso passar uma prop diretamente na decalaracao do useCallback e usar essa prop no lugar do setState, assim o useCallback nao ira recriar a funcao toda vez que o componente for renderizado novamente.
+
+const increment = useCallback((props) => {
+
+  setCounter((c) => c + props.value);
+
+}, []);
+
+// Assim temos o uso de uma funcao dentro de useCallback, o que faz com que nao hajam dependencias, e a funcao nao seja recriada toda vez que o componente for renderizado novamente.
+Entretanto, o setCounter continua sendo atualizado por fora, mantendo toda a logica a funcionar.
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 useMemo e um hook que retorna um valor memorizado, ou seja, um valor que nao sera recriado toda vez que o componente for renderizado, o valor so sera recriado quando as dependencias passadas para o useMemo forem alteradas.
 
+Um exemplo de useMemo e quando eu tenho um componente que renderiza uma lista de itens, se eu passar a lista de itens como dependencia para o useMemo, a lista de itens so sera recriada quando a lista de itens for alterada.
+
+{ useMemo(() => <Component />, [list]) }
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 useRef e um hook que retorna um objeto mutavel com a propriedade current, a propriedade current e inicializada com o valor passado para o hook, o valor da propriedade current pode ser alterado sem que o componente seja renderizado novamente.
+
+const inputRef = useRef(null);
+para se referir ao valor de useRef eu uso inputRef.current
+por exemplo
+<input ref={inputRef} />
+
+Este hook pode ser usado para passar referencias globais em todo o documento, por exemplo, para pegar o valor de um input, ou para passar referencias de elementos para bibliotecas de terceiros.
+
+O elemento a ser referenciado deve conter a propriedade ref={inputRef}
+e deve ser apontado comoo .Provider do react-router-dom.
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -145,3 +188,76 @@ useContext e um hook que permite que voce compartilhe dados entre componentes se
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 useReducer e um hook que permite que voce gerencie o estado de um componente usando uma funcao reducer, o useReducer e semelhante ao useState, a diferenca e que o useReducer e mais adequado para gerenciar estados complexos.
+
+
+
+
+
+
+##################################################################################################################################################################
+
+### Como organizar os componentes do React?
+
+A organizacao dos componentes do React pode ser feita de diversas formas, a forma mais comum e a organizacao por tipo de componente, por exemplo, componentes de layout, componentes de pagina, componentes de formulario, componentes de lista, componentes de item, componentes de botao, componentes de input, componentes de imagem, componentes de texto, componentes de icone, componentes de menu, componentes de modal, componentes de tabela, componentes de grafico, componentes de mapa, componentes de video, componentes de audio, componentes de animacao, componentes de carregamento, componentes de erro, componentes de aviso, componentes de sucesso, componentes de informacao, componentes de alerta, componentes de notificacao, componentes de toast, componentes de tooltip, componentes de badge, componentes de card, componentes de breadcrumb, componentes de dropdown, componentes de navbar, componentes de pagination, componentes de progress, componentes de spinner, componentes de tabs, componentes de toast, componentes de tooltip, componentes de badge, componentes de card, componentes de breadcrumb, componentes de dropdown, componentes de navbar, componentes de pagination, componentes de progress, componentes de spinner, componentes de tabs, componentes de accordion, componentes de carousel, componentes de collapse, componentes de list-group, componentes de modal, componentes de navbar, componentes de offcanvas, componentes de popover, componentes de scrollspy, componentes de toast, componentes de tooltip, componentes de badge, componentes de card, componentes de breadcrumb, componentes de dropdown, componentes de navbar, componentes de pagination, componentes de progress, componentes de spinner, componentes de tabs, componentes de accordion, componentes de carousel, componentes de collapse, componentes de list-group, componentes de modal, componentes de navbar, componentes de offcanvas, componentes de popover, componentes de scrollspy, componentes de toast, componentes de tooltip, componentes de badge, componentes de card, componentes de breadcrumb, componentes de dropdown, componentes de navbar, componentes de pagination, componentes de progress, componentes de spinner, componentes de tabs, componentes de accordion, componentes de carousel, componentes de collapse
+
+### O que é o payload no Redux?
+
+O payload no Redux e um objeto que contem os dados que serao enviados para a store, o payload pode ser qualquer tipo de dado, como um objeto, um array, uma string, um numero, um booleano, etc.
+
+useFetch e um hook que permite que voce faca requisicoes HTTP usando a API fetch, o useFetch e um hook customizado, ou seja, um hook criado por voce mesmo.
+
+O useFetch recebe uma URL como parametro, e retorna um objeto com os dados da requisicao, o objeto retornado pelo useFetch possui as seguintes propriedades:
+
+data: os dados da requisicao
+loading: um booleano que indica se a requisicao esta em andamento
+error: um booleano que indica se a requisicao falhou
+request: uma funcao que permite que voce faca uma nova requisicao
+O useFetch tambem recebe um segundo parametro, que e um objeto de configuracao, o objeto de configuracao possui as seguintes propriedades:
+
+method: o metodo HTTP da requisicao, por padrao e GET
+headers: os cabecalhos da requisicao, por padrao e um objeto vazio
+body: o corpo da requisicao, por padrao e um objeto vazio
+O useFetch tambem recebe um terceiro parametro, que e um objeto de dependencias, o objeto de dependencias e usado para indicar quando o hook deve fazer uma nova requisicao, por padrao o hook faz uma nova requisicao sempre que o componente for renderizado novamente.
+
+O useFetch tambem recebe um quarto parametro, que e um objeto de configuracao, o objeto de configuracao possui as seguintes propriedades:
+
+initialData: os dados iniciais da requisicao, por padrao e null
+initialLoading: um booleano que indica se a requisicao esta em andamento, por padrao e false
+initialError: um booleano que indica se a requisicao falhou, por padrao e false
+O useFetch tambem recebe um quinto parametro, que e um objeto de configuracao, o objeto de configuracao possui as seguintes propriedades:
+
+skip: um booleano que indica se o hook deve fazer uma nova requisicao, por padrao e false
+
+const useFetch = (url, options, dependencies, initialData, initialLoading, initialError, skip) => {
+  const [data, setData] = useState(initialData);
+  const [loading, setLoading] = useState(initialLoading);
+  const [error, setError] = useState(initialError);
+
+  const request = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(url, options);
+      const json = await response.json();
+      setData(json);
+      setError(null);
+    } catch (err) {
+      setData(null);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [url, options]);
+
+  useEffect(() => {
+    if (!skip) {
+      request();
+    }
+  }, dependencies);
+
+  return { data, loading, error, request };
+};
+
+export default useFetch;
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
